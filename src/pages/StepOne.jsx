@@ -1,19 +1,34 @@
-import React from "react";
+import React,  { useEffect, useState }  from "react";
 import {Header} from "../components/header"
 import { AppButton } from "../components/AppButton";
 import { Applable } from "../components/AppLable";
 
+
 const StepOne = () => {
+
+  const [userAnswer, setUserAnswer] = useState("");
+  const [isDisabled, setIsDisabled] = useState(true)
+
+
+  useEffect (() =>{
+if (userAnswer){
+  setIsDisabled(false)
+}else{
+  setIsDisabled(true)
+}
+  }, [userAnswer])
+
+
   return (
     <div className="container">
       <div className="wrapper">
         <div className="single-input-quiz">
           <div className="indicator">
             <div className="indicator__text">
-            <Applable  errorText ={"Скидка за прохождение опроса:"}   />
-              {/* <span className="indicator__description">
+           
+              <span className="indicator__description">
                 Скидка за прохождение опроса:
-              </span> */}
+              </span>
               <span className="indicator__value">15%</span>
             </div>
             <div className="indicator__progressbar">
@@ -25,8 +40,15 @@ const StepOne = () => {
           </div>
           <div className="question">
           <Header HeaderText="1. Занимательный вопрос"/>
-          <Applable labelType={"text"}  labelPlaceholder ={"Ваш ответ"}  errorText ={" Введите номер в правильном формате например"}   labelId ={"answer"} />
-          <AppButton btnText= "Далее" isDisabled={true} btnType="button" />
+          <Applable labelType={"text"} 
+                    labelPlaceholder ={"Ваш ответ"}  
+                    errorText ={" Введите номер в правильном формате например"}  
+                    labelId ={"answer"} 
+                    labelValue = {userAnswer}
+                    labelChange={setUserAnswer}/>
+          <AppButton btnText= "Далее" 
+                    isDisabled= {isDisabled} 
+                    btnType="button" />
           </div>
         </div>
       </div>
