@@ -2,6 +2,8 @@ import React,  { useEffect, useState }  from "react";
 import {Header} from "../components/header"
 import { AppButton } from "../components/AppButton";
 import { Applable } from "../components/AppLable";
+import { ProgressBar } from "../components/ProgressBar";
+
 
 
 const StepOne = () => {
@@ -23,7 +25,7 @@ if (userAnswer){
     <div className="container">
       <div className="wrapper">
         <div className="single-input-quiz">
-          <div className="indicator">
+          {/* <div className="indicator">
             <div className="indicator__text">
            
               <span className="indicator__description">
@@ -37,9 +39,12 @@ if (userAnswer){
               <div className="indicator__unit indicator__unit-3"></div>
               <div className="indicator__unit indicator__unit-4"></div>
             </div>
-          </div>
+          </div> */}
+                 <ProgressBar currentStep={1}/>
+
           <div className="question">
-          <Header HeaderText="1. Занимательный вопрос"/>
+          <Header HeaderText="1. Занимательный вопрос"
+          />
           <Applable labelType={"text"} 
                     labelPlaceholder ={"Ваш ответ"}  
                     errorText ={" Введите номер в правильном формате например"}  
