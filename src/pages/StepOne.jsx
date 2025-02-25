@@ -3,13 +3,45 @@ import {Header} from "../components/header"
 import { AppButton } from "../components/AppButton";
 import { Applable } from "../components/AppLable";
 import { ProgressBar } from "../components/ProgressBar";
-
+import { useNavigate } from "react-router-dom";
 
 
 const StepOne = () => {
 
   const [userAnswer, setUserAnswer] = useState("");
   const [isDisabled, setIsDisabled] = useState(true)
+
+  const regexAnswer = /^[a-zA-Zа-яА-ЯёЁ\s]+$/;
+
+  const navigate = useNavigate();
+
+
+
+  const handleClick = ()=>{
+    if(!regexAnswer.test(userAnswer)){
+        setUserAnswer(true);
+    }
+    if(regexAnswer.test(userAnswer)){
+      setUserAnswer(false);
+      navigate("/step-two")
+
+      const userData = JSON.parse(localStorage.getItem("user"));
+      if(userData){
+        localStorage.setItem(
+          "user",
+          JSON.stringify({ ...userData, answer: userAnswer})
+        );
+        console.log(userData);
+      } else {
+        localStorage.setItem(
+          "user",
+          JSON.stringify({answer: userAnswer})
+        );
+      }
+      navigate("/step-two")
+    }
+  }
+
 
 
   useEffect (() =>{
@@ -40,7 +72,7 @@ if (userAnswer){
               <div className="indicator__unit indicator__unit-4"></div>
             </div>
           </div> */}
-                 <ProgressBar currentStep={1}/>
+                 <ProgressBar currentStep={0}/>
 
           <div className="question">
           <Header HeaderText="1. Занимательный вопрос"
@@ -53,7 +85,9 @@ if (userAnswer){
                     labelChange={setUserAnswer}/>
           <AppButton btnText= "Далее" 
                     isDisabled= {isDisabled} 
-                    btnType="button" />
+                    btnType="button" 
+                    btnClick={()=>handleClick()}
+/>
           </div>
         </div>
       </div>
