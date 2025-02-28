@@ -347,4 +347,25 @@ button:enabled:active {
   font-size: 18px;
   text-align: center;
   margin-bottom: 16px;
+  
 }/*# sourceMappingURL=main.css.map */
+
+.thanks .info{
+  display: flex;
+  justify-content: space-between;
+}
+.thanks .info span{
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+.info{
+  margin-bottom: ;
+}
+
+/* Медиа-запрос для экранов шириной меньше 400px */
+@media (max-width: 400px) {
+  .indicator__unit {
+      flex-basis: 10%; /* Уменьшаем размер только для одной ячейки, когда экран меньше 400px */
+  }
+}

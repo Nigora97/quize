@@ -1,59 +1,57 @@
-import React from "react";
+import React, { useRef, useState } from "react";
+import { ProgressBar } from "../components/ProgressBar";
+import { Header } from "../components/header";
+import { AnswerItem } from "../components/AnswerItem";
+import { AppButton } from "../components/AppButton";
+import { useNavigate } from "react-router-dom";
+
 
 const StepThree = () => {
+
+const selectEmojiRef = useRef("");
+const[isDisabled, setIsDisabled] = useState(true);
+const navigate = useNavigate();
+const handleClick=(event)=>{
+  selectEmojiRef.current = event.target.value;
+  const userDate = JSON.parse(localStorage.getItem("user")) || {};
+  localStorage.setItem(
+    "user",
+    JSON.stringify({...userDate, selectEmoji: selectEmojiRef.current})
+  );
+  setIsDisabled(!selectEmojiRef.current)
+}
+  
+
+  const emoji = [
+    {id: "variant-1", value: "Веселый", img: "/img/laugh.png",},
+    {id: "variant-2", value: "Романтик", img: "/img/hearts.png",},
+    {id: "variant-3", value: "Хитрый", img: "/img/smirk.png",},
+    {id: "variant-4", value: "Трусливый", img: "/img/fright.png",},
+  ];
+
   return (
     <div className="container">
       <div className="wrapper">
         <div className="emoji-quiz">
-          <div className="indicator">
-            <div className="indicator__text">
-              <span className="indicator__description">
-                Скидка за прохождение опроса:
-              </span>
-              <span className="indicator__value">15%</span>
-            </div>
-            <div className="indicator__progressbar">
-              <div className="indicator__unit indicator__unit-1 _active"></div>
-              <div className="indicator__unit indicator__unit-2 _active"></div>
-              <div className="indicator__unit indicator__unit-3"></div>
-              <div className="indicator__unit indicator__unit-4"></div>
-            </div>
-          </div>
+          <ProgressBar currentStep={2} />
           <div className="question">
-            <h2>3. Занимательный вопрос</h2>
+            <Header
+              HeaderType="h2"
+              HeaderText="Какой ты больше по характеру?"
+            />
             <ul className="emoji-variants">
-              <li className="variant-wrapper">
-                <input required type="radio" name="variant" id="variant-1" />
-                <label htmlFor="variant-1">
-                  <img src="./img/laugh.png" alt="laugh" />
-                  <p>Ваш ответ 1</p>
-                </label>
-              </li>
-              <li className="variant-wrapper">
-                <input required type="radio" name="variant" id="variant-2" />
-                <label htmlFor="variant-2">
-                  <img src="./img/hearts.png" alt="hearts" />
-                  <p>Ваш ответ 2</p>
-                </label>
-              </li>
-              <li className="variant-wrapper">
-                <input required type="radio" name="variant" id="variant-3" />
-                <label htmlFor="variant-3">
-                  <img src="./img/smirk.png" alt="smirk" />
-                  <p>Ваш ответ 3</p>
-                </label>
-              </li>
-              <li className="variant-wrapper">
-                <input required type="radio" name="variant" id="variant-4" />
-                <label htmlFor="variant-4">
-                  <img src="./img/fright.png" alt="fright" />
-                  <p>Ваш ответ 4</p>
-                </label>
-              </li>
+              {emoji.map((elem) => (
+                <AnswerItem
+                  answerText={elem.value}
+                  answerValue={elem.value}
+                   answerChange={handleClick}
+                  img={elem.img}
+                  id={elem.id}
+                  key={elem.id}
+                />
+              ))}
             </ul>
-            <button type="button" disabled id="next-btn">
-              Далее
-            </button>
+            <AppButton btnText= "Далее" btnClick={()=>navigate("/step-four")} isDisabled={isDisabled}/>
           </div>
         </div>
       </div>
